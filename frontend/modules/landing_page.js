@@ -14,7 +14,16 @@ async function init() {
 async function fetchCities() {
   // TODO: MODULE_CITIES
   // 1. Fetch cities using the Backend API and return the data
-
+  let response = await fetch("http://3.109.192.254:8082/cities");
+  let user = await response.json();
+  cd ~/workspace/gauravsingh78945-ME_QTRIPDYNAMIC
+  git add .
+  git commit -m “ME_QTRIPDYNAMIC_MODULE_CITIES”
+  git push -u origin master
+  
+  # Ensure you have no pending commits
+  git status
+  return user;
 }
 
 //Implementation of DOM manipulation to add cities
