@@ -4,6 +4,10 @@ import config from "../conf/index.js";
 function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
+  const urlParams = new URLSearchParams(search);
+  for (const value of urlParams.values()){
+    return value;
+  }
 
 }
 
@@ -11,6 +15,15 @@ function getCityFromURL(search) {
 async function fetchAdventures(city) {
   // TODO: MODULE_ADVENTURES
   // 1. Fetch adventures using the Backend API and return the data
+  try{
+    const result = await fetch(config.backendEndpoint + `/adventures?city=${city}`);
+    const data = await result.json();
+    //console.log(data)
+    return data;
+  }
+  catch(err){
+    return null;
+  }
 
 }
 
@@ -18,6 +31,30 @@ async function fetchAdventures(city) {
 function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
+  const dataContianer = document.getElementById("data");
+   
+
+  for (let element of adventures) {
+    const cardEle = document.createElement("div");
+    cardEle.classList.add("col", "col-md-6", "col-lg-4", "mb-4");
+    const card = `<div class="card tile" style="width: 18rem;">
+    <a href="detail/?adventure=${element.id}" id=${element.id}>
+    <img class="card-img-top activity-card-image" style="height: 400px; width: 300px" src="${element.image}" alt="Card image cap">
+    <div class="category-banner">${element.category}</div>
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <p>${element.name}</p>
+        <p> &#8377; ${element.costPerHead}</p>
+      </div>
+      <div class="d-flex justify-content-between">
+        <p>Duration</p>
+        <p>${element.duration} Hour</p>
+      </div>
+     </div></a>
+    </div>`;
+    cardEle.innerHTML = card;
+    dataContianer.appendChild(cardEle);
+  }
 
 }
 
