@@ -15,7 +15,7 @@ async function fetchCities() {
   // TODO: MODULE_CITIES
   // 1. Fetch cities using the Backend API and return the data
   try {
-    let response = await fetch("http://3.111.6.116:8082/cities");
+    let response = await fetch("http://13.232.171.45:8082/cities");
     let user = await response.json();
     /**cd ~/workspace/gauravsingh78945-ME_QTRIPDYNAMIC
     git add .

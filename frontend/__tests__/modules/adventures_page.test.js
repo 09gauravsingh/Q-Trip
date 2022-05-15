@@ -18,7 +18,7 @@ const html = fs.readFileSync(
   path.resolve(__dirname, "../../pages/adventures/index.html"),
   "utf8"
 );
-const mockAdventuresData = require("../fixtures/adventures.json");
+const mockAdventuresData = require("../fixtures/cities.json");
 
 jest.dontMock("fs");
 
