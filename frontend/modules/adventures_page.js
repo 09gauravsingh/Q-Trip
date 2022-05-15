@@ -73,7 +73,8 @@ function filterByDuration(list, low, high) {
 //Implementation of filtering by category which takes in a list of adventures, list of categories to be filtered upon and returns a filtered list of adventures.
 function filterByCategory(list, categoryList) {
   // TODO: MODULE_FILTERS
-  // 1. Filter adventures based on their Category and return filtered list
+  // 1. Filter adventures based on their Category and return filtered list 
+   
   const filteredListByCategory = list.filter(
     (item)=>{
       return (categoryList.category.includes(item.category))
@@ -81,7 +82,7 @@ function filterByCategory(list, categoryList) {
   )
  
   return filteredListByCategory;
-
+    
 }
 
 // filters object looks like this filters = { duration: "", category: [] };
