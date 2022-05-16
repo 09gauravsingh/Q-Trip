@@ -63,9 +63,10 @@ function filterByDuration(list, low, high) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on Duration and return filtered list
    
-  const filteredByDuration = list.filter((item)=> {
-    return (item.duration>=low && item.duration<=high)
-  })
+  const filteredByDuration = list.filter((key)=> {
+    return (key.duration > low && key.duration <= high)
+  });
+
   return filteredByDuration;
 }
 
@@ -103,7 +104,11 @@ function filterFunction(list, filters) {
   //3. Filter by duration and category together
   if (filters["duration"].length > 0 && filters["category"].length > 0) {
     let choice = filters["duration"].split("-");
-    filteredList = filterByDuration[list, parseInt(choice[0]), parseInt(choice[1])];
+    filteredList = filterByDuration(
+      list, 
+      parseInt(choice[0]), 
+      parseInt(choice[1])
+    );
     filteredList = filterByCategory(filteredList, filters["category"]);
 
   }
@@ -111,7 +116,11 @@ function filterFunction(list, filters) {
   //2. Filter By Duration Only
   else if (filters["duration"].length > 0) {
     let choice = filters["duration"].split("-");
-    filteredList = filterByDuration[list, parseInt(choice[0]), parseInt(choice[1])];
+    filteredList = filterByDuration(
+      list, 
+      parseInt(choice[0]), 
+      parseInt(choice[1])
+    );
   }
 
   // default case when there is no filter
@@ -126,7 +135,7 @@ function filterFunction(list, filters) {
   // Place holder for functionality to work in the stubs
   return list;
 
-  }
+ }
 
 //Implementation of localStorage API to save filters to local storage. This should get called everytime an onChange() happens in either of filter dropdowns
 function saveFiltersToLocalStorage(filters) {
