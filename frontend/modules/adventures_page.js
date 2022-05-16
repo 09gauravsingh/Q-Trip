@@ -74,13 +74,16 @@ function filterByCategory(list, categoryList) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on their Category and return filtered list 
    
-  const filteredListByCategory = list.filter(
-    (item)=>{
-      return (categoryList.category.includes(item.category))
-    }
-  )
- 
-  return filteredListByCategory;
+  let filteredList = [];
+  categoryList.forEach((category) => {
+    list.forEach((key) => {
+      if (key.category === category) {
+        filteredList.push(key);
+      }
+    });
+  });
+
+  return filteredList;
     
 }
 
