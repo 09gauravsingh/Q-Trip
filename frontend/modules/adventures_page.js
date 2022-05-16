@@ -98,31 +98,35 @@ function filterFunction(list, filters) {
   // TODO: MODULE_FILTERS
   // 1. Handle the 3 cases detailed in the comments above and return the filtered list of adventures
   // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
-  let filterdlist ;
-  let filterDuration = filters.duration;
-  const filterDurationArr = filterDuration.split("-");
-   
+  let filteredList = [];
 
-   
-  let low = filterDurationArr[0]; 
-  let high = filterDurationArr[1]
-  if(filters.duration == "" && filters.category.length==0 ){
-    filterdlist = list;
+  //3. Filter by duration and category together
+  if (filters["duration"].length > 0 && filters["category"].length > 0) {
+    let choice = filters["duration"].split("-");
+    filteredList = filterByDuration[list, parseInt(choice[0]), parseInt(choice[1])];
+    filteredList = filterByCategory(filteredList, filters["category"]);
+
   }
-  else if(filters.duration == "" && filters.category.length>0){
-    filterdlist = filterByCategory(list, filters);
+
+  //2. Filter By Duration Only
+  else if (filters["duration"].length > 0) {
+    let choice = filters["duration"].split("-");
+    filteredList = filterByDuration[list, parseInt(choice[0]), parseInt(choice[1])];
   }
-  else if(filters.duration !== "" && filters.category.length==0){
-    filterdlist = filterByDuration(list,low,high)
+
+  // default case when there is no filter
+  else {
+    filteredList = list;
+
   }
-  else{
-    filterdlist = filterByDuration(filterByCategory(list,filters),low,high)
+  return filteredList;
+
+  // CRIO_SOLUTION_END_MODULE_ADVENTURES
+
+  // Place holder for functionality to work in the stubs
+  return list;
+
   }
-  
-   
-  // Place holder for functionality to work in the Stubs
-  return filterdlist;
-}
 
 //Implementation of localStorage API to save filters to local storage. This should get called everytime an onChange() happens in either of filter dropdowns
 function saveFiltersToLocalStorage(filters) {
