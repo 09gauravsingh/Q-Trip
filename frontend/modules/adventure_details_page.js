@@ -144,7 +144,7 @@ function captureFormSubmitUsingJQuery(adventure) {
 
     let formElements = form.elements;
 
-    let bodystring = JSON.stringify({
+    let bodyString = JSON.stringify({
       name: formElements["name"].value,
       date: formElements["date"].value,
       person: formElements["person"].value,
