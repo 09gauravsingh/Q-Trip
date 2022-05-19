@@ -4,14 +4,12 @@ import config from "../conf/index.js";
 function getAdventureIdFromURL(search) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Get the Adventure Id from the URL
-  const param = new URLSearchParams(search);
-  let adventureId;
-  for (var value of param.values()) {
-    adventureId = value;
-  }
+  const urlParams = new URLSearchParams(search);
+  const adventureId = urlParams.get("adventure");
+  return adventureId;
 
   // Place holder for functionality to work in the Stubs
-  return adventureId;
+  return null;
 }
 //Implementation of fetch call with a paramterized input based on adventure ID
 async function fetchAdventureDetails(adventureId) {
@@ -23,7 +21,7 @@ async function fetchAdventureDetails(adventureId) {
     );
     const data = await result.json();
     return data;
-  } catch (err) {
+  } catch (e) {
     return null;
   }
 
@@ -34,19 +32,31 @@ async function fetchAdventureDetails(adventureId) {
 function addAdventureDetailsToDOM(adventure) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the details of the adventure to the HTML DOM
+
+  //Setting the name
   document.getElementById("adventure-name").innerHTML = adventure.name;
+
+  //Setting the subtitle
   document.getElementById("adventure-subtitle").innerHTML = adventure.subtitle;
-  const photogallery = document.getElementById("photo-gallery");
-  const imgarr = adventure.images;
-  imgarr.forEach((element) => {
-    const imgdiv = document.createElement("div");
-    imgdiv.classList.add("col-lg-12");
-    imgdiv.innerHTML = `<img src=${element} class="activity-card-image img-fluid"  />`;
-    photogallery.appendChild(imgdiv);
+
+  //Loading the pages
+  adventure.images.map((image) => {
+    let ele = document.createElement("div");
+    ele.className = "col-lg-12";
+    ele.innerHTML = `
+    <img
+        src=${image}
+        alt=""
+        srcset=""
+        class="activity-card-image pb-3 pb-md-0"
+      />
+          `;
+    document.getElementById("photo-gallery").appendChild(ele);      
   });
-  document.getElementById("adventure-content").innerText = adventure.content;
-  document.getElementById("reservation-person-cost").innerText =
-    adventure.costPerHead;
+
+  //Setting the content
+  document.getElementById("adventure-content").innerHTML = adventure.content;
+  //CRIO_SOLUTION_END_MODULE_ADVENTURE_DETAILS
 }
 
 //Implementation of bootstrap gallery component
@@ -54,40 +64,40 @@ function addBootstrapPhotoGallery(images) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the bootstrap carousel to show the Adventure images
   let gallery = document.querySelector("#photo-gallery");
-  gallery.innerHTML = `<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-  </ol>
-  <div class="carousel-inner">
-      <div class="carousel-item active">
-         <img class="activity-card-image d-block w-100" src=${images[0]} alt="First slide">
-      </div>
+  gallery.innerHTML = `<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>`;
-  let inner = document.querySelector(".carousel-inner");
-  let ol = document.querySelector(".carousel-indicators");
-  for (let i = 1; i < images.length; i++) {
-    let li = document.createElement("LI");
-    li.setAttribute("data-target", "#carouselExampleIndicators");
-    li.setAttribute("data-slide-to", `${i}`);
-    ol.appendChild(li);
+  <div class="carousel-inner" id="carousel-inner">
 
-    let item = document.createElement("DIV");
-    item.className = "carousel-item";
-    let image = document.createElement("IMG");
-    image.className = "activity-card-image d-block w-100";
-    image.setAttribute("src", images[i]);
-    item.appendChild(image);
-    inner.appendChild(item);
-  }
+
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>`;
+  
+ images.map((image, idx) => {
+   let ele = document.createElement("div");
+   ele.className = `carousel-item ${idx === 0 ? "active" : ""}`;
+   ele.innerHTML = `
+   <img
+       src=${image}
+       alt=""
+       srcset=""
+       class="activity-vard-image pb-3 pb-md-0"
+    />
+       `;
+    document.getElementById("carousel-inner").appendChild(ele);   
+ });
+  
 }
 
 //Implementation of conditional rendering of DOM based on availability
@@ -99,6 +109,8 @@ function conditionalRenderingOfReservationPanel(adventure) {
       "none";
     document.getElementById("reservation-panel-available").style.display =
       "block";
+    document.getElementById("reservation-person-cost").innerHTML = 
+      adventure.costPerHead;  
   } else {
     document.getElementById("reservation-panel-sold-out").style.display =
       "block";
@@ -111,8 +123,9 @@ function conditionalRenderingOfReservationPanel(adventure) {
 function calculateReservationCostAndUpdateDOM(adventure, persons) {
   // TODO: MODULE_RESERVATIONS
   // 1. Calculate the cost based on number of persons and update the reservation-cost field
-  const totalCost = adventure.costPerHead * persons;
-  document.getElementById("reservation-cost").innerHTML =  String(totalCost);
+  document.getElementById("reservation-cost").innerHTML = 
+    persons * adventure.costPerHead;
+
 
 }
 
@@ -121,23 +134,45 @@ function captureFormSubmitUsingJQuery(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. Capture the query details and make a POST API call using JQuery to make the reservation
   // 2. If the reservation is successful, show an alert with "Success!" and refresh the page. If the reservation fails, just show an alert with "Failed!".
-  $("#myForm").submit((e) => {
-    e.preventDefault();
+  const form = document.getElementById("myForm");
 
-    let reservation = $("#myForm").serialize();
-    reservation += `&adventure=${adventure.id}`;
-    $.ajax({
-      type: "POST",
-      url: config.backendEndpoint + "/reservations/new",
-      data: reservation,
-      success: function () {
-        alert("Success!");
-        location.reload();
-      },
-      error: function () {
-        alert("Failed!");
-      },
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    let url = config.backendEndpoint + "/reservations/new";
+
+    let formElements = form.elements;
+
+    let bodystring = JSON.stringify({
+      name: formElements["name"].value,
+      date: formElements["date"].value,
+      person: formElements["person"].value,
+      adventure: adventure.id,
     });
+
+    try {
+      let res = await fetch(url, {
+        method: "POST",
+        body: bodyString,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      debugger;
+      if (res.ok) {
+        alert("Sucess!");
+        window.location.reload();
+
+      } else {
+        let data = await res.json();
+        alert(`Failed ${data.message}`);
+      }
+
+
+    } catch (err) {
+      console.log(err);
+      alert("Failed - fetch call resulted in error");
+    }
   });
 }
 
