@@ -1,5 +1,6 @@
 import config from "../conf/index.js";
 
+
 //Implementation to extract adventure ID from query params
 function getAdventureIdFromURL(search) {
   // TODO: MODULE_ADVENTURE_DETAILS
@@ -26,6 +27,7 @@ async function fetchAdventureDetails(adventureId) {
   }
 
   // Place holder for functionality to work in the Stubs
+  return null;
 }
 
 //Implementation of DOM manipulation to add adventure details to DOM
@@ -92,7 +94,7 @@ function addBootstrapPhotoGallery(images) {
        src=${image}
        alt=""
        srcset=""
-       class="activity-vard-image pb-3 pb-md-0"
+       class="activity-card-image pb-3 pb-md-0"
     />
        `;
     document.getElementById("carousel-inner").appendChild(ele);   
