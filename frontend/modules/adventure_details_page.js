@@ -136,45 +136,23 @@ function captureFormSubmitUsingJQuery(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. Capture the query details and make a POST API call using JQuery to make the reservation
   // 2. If the reservation is successful, show an alert with "Success!" and refresh the page. If the reservation fails, just show an alert with "Failed!".
-  const form = document.getElementById("myForm");
+  $("#myForm").submit((e) => {
+    e.preventDefault();
 
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    let url = config.backendEndpoint + "/reservations/new";
-
-    let formElements = form.elements;
-
-    let bodyString = JSON.stringify({
-      name: formElements["name"].value,
-      date: formElements["date"].value,
-      person: formElements["person"].value,
-      adventure: adventure.id,
+    let reservation = $("#myForm").serialize();
+    reservation += `&adventure=${adventure.id}`;
+    $.ajax({
+      type: "POST",
+      url: config.backendEndpoint + "/reservations/new",
+      data: reservation,
+      success: function () {
+        alert("Success!");
+        location.reload();
+      },
+      error: function () {
+        alert("Failed!");
+      },
     });
-
-    try {
-      let res = await fetch(url, {
-        method: "POST",
-        body: bodyString,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      debugger;
-      if (res.ok) {
-        alert("Sucess!");
-        window.location.reload();
-
-      } else {
-        let data = await res.json();
-        alert(`Failed ${data.message}`);
-      }
-
-
-    } catch (err) {
-      console.log(err);
-      alert("Failed - fetch call resulted in error");
-    }
   });
 }
 
