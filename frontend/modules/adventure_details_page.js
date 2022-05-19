@@ -9,7 +9,8 @@ function getAdventureIdFromURL(search) {
   for (var value of param.values()) {
     adventureId = value;
   }
-   // Place holder for functionality to work in the Stubs
+
+  // Place holder for functionality to work in the Stubs
   return adventureId;
 }
 //Implementation of fetch call with a paramterized input based on adventure ID
@@ -18,18 +19,16 @@ async function fetchAdventureDetails(adventureId) {
   // 1. Fetch the details of the adventure by making an API call
   try {
     const result = await fetch(
-      config.backendEndpoint + `/adventures/detail/?adventure=${adventureId}`
-      );
+      config.backendEndpoint + `/adventures/detail?adventure=${adventureId}`
+    );
     const data = await result.json();
     return data;
-
-  }
-  catch(err) {
+  } catch (err) {
     return null;
   }
 
   // Place holder for functionality to work in the Stubs
-} 
+}
 
 //Implementation of DOM manipulation to add adventure details to DOM
 function addAdventureDetailsToDOM(adventure) {
@@ -89,7 +88,6 @@ function addBootstrapPhotoGallery(images) {
     item.appendChild(image);
     inner.appendChild(item);
   }
-
 }
 
 //Implementation of conditional rendering of DOM based on availability
@@ -107,7 +105,6 @@ function conditionalRenderingOfReservationPanel(adventure) {
     document.getElementById("reservation-panel-available").style.display =
       "none";
   }
-
 }
 
 //Implementation of reservation cost calculation based on persons
@@ -116,13 +113,12 @@ function calculateReservationCostAndUpdateDOM(adventure, persons) {
   // 1. Calculate the cost based on number of persons and update the reservation-cost field
   const totalCost = adventure.costPerHead * persons;
   document.getElementById("reservation-cost").innerHTML =  String(totalCost);
-
 }
 
-//Implementation of reservation form submission
-function captureFormSubmit(adventure) {
+//Implementation of reservation form submission using JQuery
+function captureFormSubmitUsingJQuery(adventure) {
   // TODO: MODULE_RESERVATIONS
-  // 1. Capture the query details and make a POST API call using fetch() to make the reservation
+  // 1. Capture the query details and make a POST API call using JQuery to make the reservation
   // 2. If the reservation is successful, show an alert with "Success!" and refresh the page. If the reservation fails, just show an alert with "Failed!".
   $("#myForm").submit((e) => {
     e.preventDefault();
@@ -153,7 +149,6 @@ function showBannerIfAlreadyReserved(adventure) {
   } else {
     document.getElementById("reserved-banner").style.display = "none";
   }
-
 }
 
 export {
@@ -162,7 +157,8 @@ export {
   addAdventureDetailsToDOM,
   addBootstrapPhotoGallery,
   conditionalRenderingOfReservationPanel,
-  captureFormSubmit,
+  captureFormSubmitUsingJQuery,
   calculateReservationCostAndUpdateDOM,
   showBannerIfAlreadyReserved,
+
 };
