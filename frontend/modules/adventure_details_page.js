@@ -195,7 +195,7 @@ export {
   addAdventureDetailsToDOM,
   addBootstrapPhotoGallery,
   conditionalRenderingOfReservationPanel,
-  captureFormSubmitUsingJQuery,
+  captureFormSubmit,
   calculateReservationCostAndUpdateDOM,
   showBannerIfAlreadyReserved,
 
