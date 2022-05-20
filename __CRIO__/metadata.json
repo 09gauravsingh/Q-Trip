@@ -1,4 +1,3 @@
-{
-    "module_id": "ME_QTRIPDYNAMIC_MODULE_RESERVATIONS",
-  "me_id": "ME_QTRIPDYNAMIC"
+{  "module_id": "ME_QTRIPDYNAMIC_MODULE_DEPLOYMENT", 
+   "me_id": "ME_QTRIPDYNAMIC"
 }
