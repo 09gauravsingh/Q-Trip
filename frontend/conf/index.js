@@ -1,4 +1,4 @@
 
-const config = { backendEndpoint: "http://52.66.43.236:8082" };
+const config = { backendEndpoint: "https://kil-travels.herokuapp.com/" };
 
 export default config;
